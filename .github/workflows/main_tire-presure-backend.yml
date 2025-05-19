@@ -8,6 +8,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Lab4/**'
   workflow_dispatch:
 
 jobs:
@@ -17,7 +19,12 @@ jobs:
       contents: read #This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout backend folder
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Lab4/
+          sparse-checkout-cone-mode: false
 
       - name: Set up Python version
         uses: actions/setup-python@v5
@@ -30,19 +37,19 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r Lab4/requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: cd Lab4 && zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            release.zip
+            Lab4/release.zip
             !venv/
 
   deploy:
