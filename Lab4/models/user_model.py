@@ -7,7 +7,6 @@ from datetime import datetime
 from flask import jsonify, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.role_model import Role
-from services.email_confirm_service import EmailConfirmService
 from utils import ErrorHandler, Validator
 
 
@@ -103,6 +102,7 @@ class User(db.Model, UserMixin):
             db.session.add(user)
             db.session.commit()
 
+            from services.email_confirm_service import EmailConfirmService  
             EmailConfirmService.send_email_confirmation(user)
 
             return jsonify({"message": "User registered successfully."}), 201
