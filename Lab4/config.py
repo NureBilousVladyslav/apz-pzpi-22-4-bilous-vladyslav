@@ -10,6 +10,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
 
+    FORCE_DB_RESET = os.getenv('FORCE_DB_RESET', 'False').lower() == 'true'
+    
     # Email configuration
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587

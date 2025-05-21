@@ -7,13 +7,13 @@ class ErrorHandler:
         if isinstance(error, HTTPException):
             response = jsonify({
                 "error": error.name,
-                "message": message + error.description
+                "message": message or error.description
             })
             response.status_code = status_code + error.code
         else:
             response = jsonify({
                 "error": "Internal Server Error",
-                "message": message + str(error)
+                "message": message or str(error)
             })
             response.status_code = status_code or 500
         return response

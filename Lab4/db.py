@@ -8,10 +8,14 @@ load_dotenv()
 metadata = MetaData(schema="tire_pressure")
 db = SQLAlchemy(metadata=metadata)
 
-def seed_data():
+def seed_data(force: bool = False) -> None:
     """Seed the database with initial data."""
     from models import Role, User, AlertType
     try:
+        if force:
+            db.drop_all()
+            db.create_all()
+        
         # Insert roles
         if not Role.query.first():
             roles = [

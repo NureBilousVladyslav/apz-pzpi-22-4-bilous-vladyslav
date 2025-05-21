@@ -32,8 +32,8 @@ with app.app_context():
 
         # Seed data
         from db import seed_data
+        seed_data(app.config['FORCE_DB_RESET'])
 
-        seed_data()
     except Exception as e:
         db.session.rollback()
         print(f"Error initializing database: {str(e)}")

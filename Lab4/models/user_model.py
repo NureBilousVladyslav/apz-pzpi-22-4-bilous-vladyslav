@@ -7,6 +7,7 @@ from datetime import datetime
 from flask import jsonify, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.role_model import Role
+from services.email_confirm_service import EmailConfirmService
 from utils import ErrorHandler, Validator
 
 
@@ -101,6 +102,8 @@ class User(db.Model, UserMixin):
 
             db.session.add(user)
             db.session.commit()
+
+            EmailConfirmService.send_email_confirmation(user)
 
             return jsonify({"message": "User registered successfully."}), 201
 
@@ -295,32 +298,7 @@ class User(db.Model, UserMixin):
             return ErrorHandler.handle_error(e, "Failed to update password"), 500
 
 
-    @classmethod
-    def verify_email(cls, user_id: str) -> tuple[Response, int]:
-        """
-        Verify user's email address.
-
-        Args:
-            user_id (str): UUID of the user
-
-        Returns:
-            tuple: (JSON response, HTTP status code)
-        """
-        try:
-            user = cls.query.get(uuid.UUID(user_id))
-            if not user:
-                return ErrorHandler.handle_error(None, message="User not found", status_code=404)
-
-            if user.email_confirmed:
-                return jsonify({"message": f"Email for user {user_id} is already verified"}), 200
-
-            user.email_confirmed = True
-            db.session.commit()
-
-            return jsonify({"message": f"Email for user {user_id} verified successfully"}), 200
-
-        except ValueError:
-            return ErrorHandler.handle_validation_error("Invalid user ID format"), 400
-        except Exception as e:
-            db.session.rollback()
-            return ErrorHandler.handle_error(e, "Failed to verify email"), 500
+    @staticmethod
+    def verify_email(user):
+        user.email_confirmed = True
+        db.session.commit()

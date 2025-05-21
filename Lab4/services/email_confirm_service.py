@@ -121,7 +121,7 @@ class EmailConfirmService:
             if user is None:
                 raise PermissionError('The token is invalid or expired.')
 
-            user.verify_email()  # Предполагается, что метод verify_email существует в модели User
+            User.verify_email(user)
 
             return render_template(
                 "email_confirmation_success.html",
