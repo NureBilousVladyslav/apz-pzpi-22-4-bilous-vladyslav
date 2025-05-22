@@ -135,8 +135,6 @@ class User(db.Model, UserMixin):
                 )
 
             users = cls.query.filter_by(role_id=role.role_id).all()
-            if not users:
-                return jsonify({"message": f"No users found with role '{role_name}'"}), 200
 
             users_data = [
                 {
@@ -144,6 +142,7 @@ class User(db.Model, UserMixin):
                     "name": user.name,
                     "email": user.email,
                     "role": role_name,
+                    "birthday": user.birthday.isoformat() if user.birthday else None,
                     "created_at": user.created_at.isoformat(),
                     "email_confirmed": user.email_confirmed
                 } for user in users
@@ -167,7 +166,7 @@ class User(db.Model, UserMixin):
             tuple: (JSON response, HTTP status code)
         """
         try:
-            user = cls.query.get(uuid.UUID(user_id))
+            user = User.query.filter_by(user_id=user_id).first()
             if not user:
                 return ErrorHandler.handle_error(
                     None,
@@ -175,7 +174,7 @@ class User(db.Model, UserMixin):
                     status_code=404
                 )
 
-            return jsonify({
+            user_data = {
                 "user_id": str(user.user_id),
                 "name": user.name,
                 "email": user.email,
@@ -184,7 +183,8 @@ class User(db.Model, UserMixin):
                 "created_at": user.created_at.isoformat(),
                 "email_confirmed": user.email_confirmed,
                 "vehicles_count": len(user.vehicles),
-            }), 200
+            }
+            return jsonify({"user": user_data}), 200
 
         except ValueError:
             return ErrorHandler.handle_validation_error("Invalid user ID format"), 400
@@ -204,7 +204,7 @@ class User(db.Model, UserMixin):
             tuple: (JSON response, HTTP status code)
         """
         try:
-            user = cls.query.get(uuid.UUID(user_id))
+            user = User.query.filter_by(user_id=user_id).first()
             if not user:
                 return ErrorHandler.handle_error(
                     None,
@@ -235,7 +235,7 @@ class User(db.Model, UserMixin):
             tuple: (JSON response, HTTP status code)
         """
         try:
-            user = cls.query.get(uuid.UUID(user_id))
+            user = User.query.filter_by(user_id=user_id).first()
             if not user:
                 return ErrorHandler.handle_error(
                     None,
@@ -279,7 +279,7 @@ class User(db.Model, UserMixin):
             Validator.validate_required_fields(data, ['old_password', 'new_password'])
             Validator.validate_password(new_password)
 
-            user = cls.query.get(uuid.UUID(user_id))
+            user = User.query.filter_by(user_id=user_id).first()
             if not user:
                 return ErrorHandler.handle_error(None, message="User not found", status_code=404)
 
