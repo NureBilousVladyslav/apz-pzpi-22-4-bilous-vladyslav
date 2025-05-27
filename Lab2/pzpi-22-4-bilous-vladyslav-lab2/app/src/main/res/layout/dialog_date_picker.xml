@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_date_picker"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@drawable/rounded_all_background"
+    android:clipToPadding="false">
+
+    <NumberPicker
+        android:id="@+id/monthPicker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_marginStart="30dp"
+        android:theme="@style/NumberPickerStyle"
+        android:padding="4dp" />
+
+    <NumberPicker
+        android:id="@+id/dayPicker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:theme="@style/NumberPickerStyle"
+        android:padding="4dp" />
+
+    <NumberPicker
+        android:id="@+id/yearPicker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="30dp"
+        android:theme="@style/NumberPickerStyle"
+        android:padding="4dp" />
+
+</LinearLayout>

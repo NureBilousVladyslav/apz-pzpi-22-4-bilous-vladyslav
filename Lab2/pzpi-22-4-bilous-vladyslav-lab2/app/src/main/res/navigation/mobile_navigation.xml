@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_car">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.tirepresure.main.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_car"
+        android:name="com.example.tirepresure.main.car.CarFragment"
+        android:label="@string/title_car_fragment"
+        tools:layout="@layout/fragment_car" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.tirepresure.main.tires.TiresFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_tires" />
+        android:id="@+id/navigation_profile"
+        android:name="com.example.tirepresure.main.profile.ProfileFragment"
+        android:label="@string/title_profile_fragment"
+        tools:layout="@layout/fragment_sign_up" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.tirepresure.main.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_settings"
+        android:name="com.example.tirepresure.main.settings.SettingsFragment"
+        android:label="@string/title_settings_fragment"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

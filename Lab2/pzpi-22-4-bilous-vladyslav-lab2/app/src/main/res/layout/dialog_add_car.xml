@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_add_car"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/rounded_all_background"
+    android:clipToPadding="false">
+
+    <TextView
+        style="@style/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:text="@string/car_new"
+        android:padding="4dp" />
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginStart="30dp"
+        android:text="@string/car_brand"
+        android:padding="4dp" />
+
+    <androidx.cardview.widget.CardView
+        style="@style/CardViewField">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/brandEditText"
+                style="@style/EditText"
+                android:hint="@string/car_brand_example" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/car_model"
+        android:padding="4dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginBottom="10dp"
+        style="@style/CardViewField">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/modelEditText"
+                style="@style/EditText"
+                android:hint="@string/car_model_example" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/car_year"
+        android:padding="4dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginBottom="10dp"
+        style="@style/CardViewField">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/yearEditText"
+                style="@style/EditText"
+                android:hint="@string/car_year_example" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        android:layout_marginTop="40dp"
+        android:text="@string/save"
+        style="@style/CustomMaterialButton" />
+
+</LinearLayout>

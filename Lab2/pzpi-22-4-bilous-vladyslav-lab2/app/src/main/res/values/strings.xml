@@ -28,25 +28,56 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
+
+    <!-- SignInFragment -->
+    <string name="title_sign_in_fragment">SignIn</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+
+    <!-- SignUpFragment -->
+    <string name="title_sign_up_fragment">SignUp</string>
+
+    <!-- ResetPasswordFragment -->
+    <string name="title_reset_pswd_fragment">SignIn</string>
+    <string name="forgot_description">Enter your email address to reset your password. After confirming your email, you will receive a new password in your mail.</string>
+    <string name="email_enter">Enter email address</string>
+    <string name="send">Send</string>
+
     <!-- TireFragment -->
     <string name="title_tire_fragment">Tire</string>
 
-    <!-- TiresFragment -->
-    <string name="title_tires_fragment">Tires</string>
+    <!-- CarFragment -->
+    <string name="title_car_fragment">Car</string>
 
     <!-- ProfileFragment -->
     <string name="title_profile_fragment">Profile</string>
 
+    <!-- SettingsFragment -->
+    <string name="title_settings_fragment">Settings</string>
 
+    <!-- DialogAddTire -->
+    <string name="tire_new">New tire</string>
+    <string name="tire_name">Name</string>
+    <string name="tire_name_example">My Tire</string>
 
-    <!-- DialogAddPressureGauge -->
-    <string name="newPressureGauge">New pressure gauge</string>
-    <string name="tire_name">My tire</string>
-    <string name="id">Id</string>
-    <string name="id_example">84:0D:8E:AB:12:34</string>
-    <string name="normalPressure">Normal pressure</string>
-    <string name="minPressure">Min pressure</string>
-    <string name="maxPressure">Max pressure</string>
-    <string name="pressure">2,3</string>
-    <string name="treadwearRating">Treadwear rating</string>
+    <!--  DialogAddTire  -->
+    <string name="tire_optimal_pressure">Pressure</string>
+    <string name="tire_optimal_pressure_example">2,5</string>
+    <string name="tire_pressure_unit">Pressure unit</string>
+    <string name="tire_pressure_unit_bar">bar</string>
+    <string name="tire_pressure_unit_psi">psi</string>
+    <string name="tire_pressure_unit_kpa">kPa</string>
+    <string name="tire_current_alert_type">OMGOMGOMG</string>
+    <string name="tire_current_alert_type_example">OMGOMGOMG</string>
+
+    <!--  DialogAddCar  -->
+    <string name="car_new">New Car</string>
+    <string name="car_brand">Brand car</string>
+    <string name="car_brand_example">Volvo</string>
+    <string name="car_model">Car model</string>
+    <string name="car_model_example">XC90</string>
+    <string name="car_year">Year</string>
+    <string name="car_year_example">2025</string>
+
+    <!--  Prefs and more  -->
+    <string name="save">Save</string>
 </resources>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_add_home"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/rounded_all_background"
+    android:clipToPadding="false">
+
+    <TextView
+        style="@style/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:text="@string/tire_new"
+        android:padding="4dp" />
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/tire_name"
+        android:padding="4dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginBottom="10dp"
+        style="@style/CardViewField">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/nameEditText"
+                style="@style/EditText"
+                android:hint="@string/tire_name_example" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/tire_optimal_pressure"
+        android:padding="4dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginBottom="10dp"
+        style="@style/CardViewField">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/pressureEditText"
+                style="@style/EditText"
+                android:hint="@string/tire_optimal_pressure_example"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/tire_pressure_unit"
+        android:padding="4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center" >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/windowButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/tire_pressure_unit_bar"
+            android:textAllCaps="false"
+            style="@style/CustomMaterialButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/doorButton1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/tire_pressure_unit_psi"
+            android:textAllCaps="false"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            style="@style/CustomMaterialButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/doorButton2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/tire_pressure_unit_kpa"
+            android:textAllCaps="false"
+            style="@style/CustomMaterialButton" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/TextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/tire_current_alert_type"
+        android:padding="4dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginBottom="10dp"
+        style="@style/CardViewField">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/currentAlertEditText"
+                style="@style/EditText"
+                android:hint="@string/tire_current_alert_type_example" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginEnd="130dp"
+        android:text="@string/save"
+        style="@style/CustomMaterialButton" />
+
+</LinearLayout>
