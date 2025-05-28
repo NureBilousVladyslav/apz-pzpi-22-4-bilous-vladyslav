@@ -13,5 +13,6 @@ data class DateModel(
         )
     }
 
-    fun toFormattedString(): String = "${months[month]} $day $year"
+    fun toFormattedString(): String = String.format("%04d-%02d-%02d", year, month + 1, day)
+
 }

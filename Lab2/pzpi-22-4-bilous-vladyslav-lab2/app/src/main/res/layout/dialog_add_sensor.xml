@@ -107,31 +107,6 @@
 
     </LinearLayout>
 
-    <TextView
-        style="@style/TextView"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp"
-        android:text="@string/tire_current_alert_type"
-        android:padding="4dp" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_marginBottom="10dp"
-        style="@style/CardViewField">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/currentAlertEditText"
-                style="@style/EditText"
-                android:hint="@string/tire_current_alert_type_example" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveButton"
         android:layout_marginTop="40dp"

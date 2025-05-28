@@ -11,15 +11,18 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.tirepresure.R
 import com.example.tirepresure.data.model.DateModel
 import com.example.tirepresure.databinding.FragmentSignUpBinding
 import com.example.tirepresure.auth.utils.PasswordVisibilityUtils
 import com.example.tirepresure.auth.utils.ValidatorUtils
 import com.example.tirepresure.common.viewModel.DatePickerViewModel
+import com.example.tirepresure.data.api.RetrofitInstance
+import com.example.tirepresure.data.model.ErrorResponse
+import com.example.tirepresure.data.model.SignUpRequest
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
@@ -69,7 +72,7 @@ class SignUpFragment : Fragment() {
                     }
 
                     !ValidatorUtils.isDateSelected(date) -> {
-                        Toast.makeText(context, "Password must be 8 characters or more", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Date not selected", Toast.LENGTH_LONG).show()
                     }
 
                     !ValidatorUtils.isPasswordConfirmed(password, confirmPassword) -> {
@@ -81,7 +84,30 @@ class SignUpFragment : Fragment() {
                     }
 
                     else -> {
-                        //.isRegister(name, email, password)
+                        val request = SignUpRequest(name, email, password, date.toFormattedString())
+
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            try {
+                                val response = RetrofitInstance.api.signUp(request)
+                                if (response.isSuccessful) {
+                                    val body = response.body()
+                                    Toast.makeText(context, body.toString(), Toast.LENGTH_LONG).show()
+                                    requireActivity().supportFragmentManager.popBackStack()
+                                } else {
+                                    val errorBody = response.errorBody()?.string()
+                                    val errorMessage = try {
+                                        val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+                                        errorResponse.message
+                                    } catch (e: JsonSyntaxException) {
+                                        "Unknown error: $e"
+                                    }
+
+                                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                                }
+                            } catch (e: Exception) {
+                                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }
                 }
             }

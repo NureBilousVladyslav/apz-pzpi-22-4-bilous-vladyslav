@@ -60,7 +60,7 @@
     <string name="tire_name_example">My Tire</string>
 
     <!--  DialogAddTire  -->
-    <string name="tire_optimal_pressure">Pressure</string>
+    <string name="tire_optimal_pressure">Optimal pressure</string>
     <string name="tire_optimal_pressure_example">2,5</string>
     <string name="tire_pressure_unit">Pressure unit</string>
     <string name="tire_pressure_unit_bar">bar</string>
