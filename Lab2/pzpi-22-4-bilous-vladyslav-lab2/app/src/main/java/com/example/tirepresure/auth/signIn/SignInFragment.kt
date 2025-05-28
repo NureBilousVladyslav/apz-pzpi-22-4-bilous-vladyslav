@@ -18,6 +18,7 @@ import com.example.tirepresure.auth.utils.ValidatorUtils
 import com.example.tirepresure.data.api.RetrofitInstance
 import com.example.tirepresure.data.model.ErrorResponse
 import com.example.tirepresure.data.model.SignInRequest
+import com.example.tirepresure.data.repo.TokenRepository
 import com.example.tirepresure.databinding.FragmentSignInBinding
 import com.example.tirepresure.main.MainActivity
 import com.google.gson.Gson
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
     private lateinit var navController: NavController
+    private lateinit var tokenRepository: TokenRepository
     private var _isPasswordVisible = false
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -37,6 +39,7 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
+        tokenRepository = TokenRepository(requireContext())
         return binding.root
     }
 
@@ -93,10 +96,12 @@ class SignInFragment : Fragment() {
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
-                        val response = RetrofitInstance.api.signIn(request)
+                        val response = RetrofitInstance.authApi.signIn(request)
                         if (response.isSuccessful) {
-                            val body = response.body()
-                            Toast.makeText(context, body.toString(), Toast.LENGTH_LONG).show()
+                            val token = response.body()!!.token
+                            tokenRepository.saveToken(token)
+                            Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show()
+
                             requireActivity().supportFragmentManager.popBackStack()
                             startActivity(MainActivity::class.java)
                         } else {

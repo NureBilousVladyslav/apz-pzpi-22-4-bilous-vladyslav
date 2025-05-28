@@ -8,8 +8,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitInstance {
     private const val BASE_URL = "http://10.0.2.2:5000/"
 
-    val api: AuthApi by lazy {
+    val authApi: AuthApi by lazy {
         retrofit.create(AuthApi::class.java)
+    }
+
+    val carApi: CarApi by lazy {
+        retrofit.create(CarApi::class.java)
+    }
+
+    val tireApi: TireApi by lazy {
+        retrofit.create(TireApi::class.java)
     }
 
     val okHttpClient: OkHttpClient by lazy {

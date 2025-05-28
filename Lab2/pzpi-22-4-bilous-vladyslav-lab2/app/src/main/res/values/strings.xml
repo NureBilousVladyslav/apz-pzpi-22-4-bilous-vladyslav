@@ -44,9 +44,14 @@
 
     <!-- TireFragment -->
     <string name="title_tire_fragment">Tire</string>
+    <string name="sensor">Sensor</string>
+    <string name="status">Status</string>
+    <string name="pressure_current">Current pressure: </string>
+    <string name="pressure_recommended">Pressure recommended: </string>
+    <string name="paring_code">1861242</string>
 
     <!-- CarFragment -->
-    <string name="title_car_fragment">Car</string>
+    <string name="title_car_fragment">Cars</string>
 
     <!-- ProfileFragment -->
     <string name="title_profile_fragment">Profile</string>
@@ -80,4 +85,5 @@
 
     <!--  Prefs and more  -->
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

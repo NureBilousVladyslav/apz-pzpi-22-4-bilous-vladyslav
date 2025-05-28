@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_tire_properties"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/rounded_all_background"
+    android:backgroundTint="@color/onPrimaryVariant"
+    android:clipToPadding="false">
+
+    <TextView
+        style="@style/TextView"
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:text="@string/tire_name_example"
+        android:padding="4dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteButton"
+        android:layout_marginTop="40dp"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        style="@style/CustomMaterialButton" />
+
+    <TextView
+        style="@style/TextView"
+        android:id="@+id/paringCodeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:text="@string/paring_code"
+        android:padding="4dp" />
+
+</LinearLayout>

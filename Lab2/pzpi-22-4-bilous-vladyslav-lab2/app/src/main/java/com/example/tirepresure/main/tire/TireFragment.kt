@@ -5,56 +5,108 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.tirepresure.R
+import com.example.tirepresure.data.repo.TokenRepository
+import com.example.tirepresure.databinding.FragmentTireBinding
+import com.example.tirepresure.main.tire.TireViewModel
+import com.example.tirepresure.main.tire.TiresAdapter
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TireFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TireFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+class TireFragment(
+    val carId: String
+) : Fragment() {
+    private lateinit var binding: FragmentTireBinding
+    private lateinit var tiresAdapter: TiresAdapter
+    private val tokenRepository: TokenRepository = TokenRepository(requireContext())
+    private val tireViewModel: TireViewModel = TireViewModel(tokenRepository)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tire, container, false)
+        binding = FragmentTireBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TireFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TireFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeTireState()
+
+        binding.addTireButton.setOnClickListener {
+            showAddTireDialog()
+        }
+    }
+
+    private fun observeTireState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tireViewModel.tiresState.collect { tire ->
+                    if (tire.isNotEmpty()) {
+                        tiresAdapter.submitList(tire)
+                    }
                 }
             }
+        }
+    }
+
+    private fun showAddTireDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_tire, null)
+        val nameEditText = dialogView.findViewById<EditText>(R.id.nameEditText)
+        val optimalPressureEditText = dialogView.findViewById<EditText>(R.id.optimalPressureEditText)
+        val barButton = dialogView.findViewById<MaterialButton>(R.id.barButton)
+        val psiButton = dialogView.findViewById<MaterialButton>(R.id.psiButton)
+        val kPaButton = dialogView.findViewById<MaterialButton>(R.id.kPaButton)
+        var selectedUnit: String = toggleUnitButton(barButton, psiButton, kPaButton)
+
+        barButton.setOnClickListener { selectedUnit = toggleUnitButton(barButton, psiButton, kPaButton) }
+        psiButton.setOnClickListener { selectedUnit = toggleUnitButton(barButton, psiButton, kPaButton) }
+        kPaButton.setOnClickListener { selectedUnit = toggleUnitButton(barButton, psiButton, kPaButton) }
+
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomDialogStyle)
+            .setView(dialogView)
+            .setPositiveButton("Save") { _, _ ->
+                val name = nameEditText.text.toString()
+                val optimalPressure = optimalPressureEditText.text.toString().toFloatOrNull() ?: 0f
+
+                if (name.isBlank() || optimalPressure <= 0) {
+                    Toast.makeText(requireContext(), "Field is empty or invalid", Toast.LENGTH_LONG).show()
+                    return@setPositiveButton
+                }
+
+                tireViewModel.addTire(carId, name, optimalPressure, selectedUnit, "normal")
+                Toast.makeText(requireContext(), "Adding tire...", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun toggleUnitButton(barButton: MaterialButton, psiButton: MaterialButton, kPaButton: MaterialButton): String {
+        val buttons = listOf(barButton, psiButton, kPaButton)
+
+        val activeButton = buttons.find { !it.isEnabled } ?: barButton
+
+        activeButton.isEnabled = false
+        activeButton.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary)
+
+        buttons.filter { it != activeButton }.forEach { button ->
+            button.isEnabled = true
+            button.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.onPrimaryVariant)
+        }
+
+        return when (activeButton.id) {
+            R.id.barButton -> "bar"
+            R.id.psiButton -> "psi"
+            R.id.kPaButton -> "kPa"
+            else -> "bar"
+        }
     }
 }

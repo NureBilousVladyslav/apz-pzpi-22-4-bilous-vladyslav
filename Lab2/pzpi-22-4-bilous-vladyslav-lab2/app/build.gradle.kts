@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation (libs.androidx.security.crypto)
+    implementation(libs.datastore.preferences)
     implementation (libs.logging.interceptor)
     implementation (libs.retrofit2.retrofit)
     implementation (libs.converter.gson)

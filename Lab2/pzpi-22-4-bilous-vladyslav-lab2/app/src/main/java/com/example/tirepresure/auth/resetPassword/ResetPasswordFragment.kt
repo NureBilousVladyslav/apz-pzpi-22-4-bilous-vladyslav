@@ -51,7 +51,7 @@ class ResetPasswordFragment : Fragment() {
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
-                        val response = RetrofitInstance.api.resetPassword(request)
+                        val response = RetrofitInstance.authApi.resetPassword(request)
                         if (response.isSuccessful) {
                             val body = response.body()
                             Toast.makeText(context, body.toString(), Toast.LENGTH_LONG).show()

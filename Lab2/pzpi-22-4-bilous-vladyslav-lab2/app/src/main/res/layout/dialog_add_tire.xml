@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dialog_add_home"
+    android:id="@+id/dialog_add_tire"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -59,7 +59,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/pressureEditText"
+                android:id="@+id/optimalPressureEditText"
                 style="@style/EditText"
                 android:hint="@string/tire_optimal_pressure_example"
                 android:inputType="numberDecimal" />
@@ -80,7 +80,7 @@
         android:gravity="center" >
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/windowButton"
+            android:id="@+id/barButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="@string/tire_pressure_unit_bar"
@@ -88,17 +88,18 @@
             style="@style/CustomMaterialButton" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/doorButton1"
+            android:id="@+id/psiButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="@string/tire_pressure_unit_psi"
             android:textAllCaps="false"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
+            android:enabled="false"
             style="@style/CustomMaterialButton" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/doorButton2"
+            android:id="@+id/kPaButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="@string/tire_pressure_unit_kpa"

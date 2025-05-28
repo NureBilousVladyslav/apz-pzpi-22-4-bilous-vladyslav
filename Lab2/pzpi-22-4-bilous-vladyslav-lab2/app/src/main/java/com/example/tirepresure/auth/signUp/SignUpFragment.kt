@@ -88,7 +88,7 @@ class SignUpFragment : Fragment() {
 
                         viewLifecycleOwner.lifecycleScope.launch {
                             try {
-                                val response = RetrofitInstance.api.signUp(request)
+                                val response = RetrofitInstance.authApi.signUp(request)
                                 if (response.isSuccessful) {
                                     val body = response.body()
                                     Toast.makeText(context, body.toString(), Toast.LENGTH_LONG).show()
