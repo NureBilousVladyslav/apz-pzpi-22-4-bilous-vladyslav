@@ -42,7 +42,7 @@ def reset_password_request(data: dict) -> tuple[Response, int]:
             )
 
         token = s.dumps(user.email, salt='reset-password-confirm-salt')
-        confirmation_url = url_for('user_profile.confirm_reset_password', token=token, _external=True)
+        confirmation_url = url_for('auth.confirm_reset_password', token=token, _external=True)
 
         msg = Message(
             "Reset Password Confirmation",
