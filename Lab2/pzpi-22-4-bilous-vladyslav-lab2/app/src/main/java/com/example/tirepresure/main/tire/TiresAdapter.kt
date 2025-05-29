@@ -32,7 +32,6 @@ class TiresAdapter(
             binding.propertiesImageView.setOnClickListener {
                 showAddCarDialog(tire)
             }
-            binding.root.setOnClickListener { onItemClick(tire) }
         }
 
         private fun showAddCarDialog(tire: Tire) {
@@ -44,7 +43,7 @@ class TiresAdapter(
             titleTextView.setText(tire.label)
             paringCodeTextView.setText(tire.sensor_code)
             deleteButton.setOnClickListener {
-                onItemClick(tire)sds
+                onItemClick(tire)
             }
 
             MaterialAlertDialogBuilder(binding.root.context, R.style.CustomDialogStyle)

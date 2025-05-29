@@ -13,36 +13,42 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class CarsAdapter(
-    private val onItemClick: (Car) -> Unit
+    private val onItemClick: (Car) -> Unit,
+    private val onDeleteClick: (Car) -> Unit
 ) : ListAdapter<Car, CarsAdapter.CarViewHolder>(CarDiffCallback()) {
 
     class CarViewHolder(
         private val binding: ItemCarBinding,
-        private val onItemClick: (Car) -> Unit
+        private val onItemClick: (Car) -> Unit,
+        private val onDeleteClick: (Car) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(car: Car) {
             binding.brandTextView.text = car.make
             binding.modelTextView.text = car.model
             binding.propertiesImageView.setOnClickListener {
-                showAddCarDialog(car)
+                showPropertiesCarDialog(car)
             }
             binding.root.setOnClickListener { onItemClick(car) }
         }
 
-        private fun showAddCarDialog(car: Car) {
+        private fun showPropertiesCarDialog(car: Car) {
             val dialogView = LayoutInflater.from(binding.root.context).inflate(R.layout.dialog_car_properties, null)
             val titleTextView = dialogView.findViewById<TextView>(R.id.titleTextView)
             val deleteButton = dialogView.findViewById<MaterialButton>(R.id.deleteButton)
 
-            titleTextView.setText(car.make)
-            deleteButton.setOnClickListener {
-                onItemClick(car)asd
-            }
+            titleTextView.text = car.make
 
             MaterialAlertDialogBuilder(binding.root.context, R.style.CustomDialogStyle)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
-                .show()
+                .create()
+                .apply {
+                    show()
+                    deleteButton.setOnClickListener {
+                        onDeleteClick(car)
+                        dismiss()
+                    }
+                }
         }
     }
 
@@ -52,7 +58,7 @@ class CarsAdapter(
             parent,
             false
         )
-        return CarViewHolder(binding, onItemClick)
+        return CarViewHolder(binding, onItemClick, onDeleteClick)
     }
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
@@ -61,7 +67,7 @@ class CarsAdapter(
 
     private class CarDiffCallback : DiffUtil.ItemCallback<Car>() {
         override fun areItemsTheSame(oldItem: Car, newItem: Car): Boolean {
-            return oldItem.carId == newItem.carId
+            return oldItem.vehicle_id == newItem.vehicle_id
         }
 
         override fun areContentsTheSame(oldItem: Car, newItem: Car): Boolean {

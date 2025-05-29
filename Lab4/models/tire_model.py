@@ -166,6 +166,7 @@ class Tire(db.Model):
                 tire_data = {
                     "tire_id": str(tire.tire_id),
                     "label": tire.label,
+                    "pressure_unit": tire.pressure_unit,
                     "optimal_pressure": float(tire.optimal_pressure),
                     "sensor_code": tire.sensor_code,
                     "installed_at": tire.installed_at.isoformat(),
@@ -209,6 +210,7 @@ class Tire(db.Model):
                 "tire_id": str(tire.tire_id),
                 "vehicle_id": str(tire.vehicle_id),
                 "label": tire.label,
+                "pressure_unit": tire.pressure_unit,
                 "optimal_pressure": float(tire.optimal_pressure),
                 "sensor_code": tire.sensor_code,
                 "installed_at": tire.installed_at.isoformat(),

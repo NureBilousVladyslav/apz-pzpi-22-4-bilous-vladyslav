@@ -5,6 +5,7 @@ import com.example.tirepresure.data.model.AddCarResponse
 import com.example.tirepresure.data.model.Car
 import com.example.tirepresure.data.model.CarsGetResponse
 import com.example.tirepresure.data.model.DeleteCarRequest
+import com.example.tirepresure.data.model.MessageResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -48,5 +49,5 @@ interface CarApi {
     suspend fun deleteCar(
         @Header("Authorization") token: String?,
         @Body request: DeleteCarRequest
-    ): Response<AddCarResponse>
+    ): Response<MessageResponse>
 }

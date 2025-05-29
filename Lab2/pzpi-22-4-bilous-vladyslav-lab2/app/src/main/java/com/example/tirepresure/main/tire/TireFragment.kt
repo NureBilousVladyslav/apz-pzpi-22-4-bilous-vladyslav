@@ -11,9 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tirepresure.R
+import com.example.tirepresure.data.model.Car
 import com.example.tirepresure.data.repo.TokenRepository
 import com.example.tirepresure.databinding.FragmentTireBinding
+import com.example.tirepresure.main.car.CarsAdapter
 import com.example.tirepresure.main.tire.TireViewModel
 import com.example.tirepresure.main.tire.TiresAdapter
 import com.google.android.material.button.MaterialButton
@@ -25,13 +28,22 @@ class TireFragment(
 ) : Fragment() {
     private lateinit var binding: FragmentTireBinding
     private lateinit var tiresAdapter: TiresAdapter
-    private val tokenRepository: TokenRepository = TokenRepository(requireContext())
-    private val tireViewModel: TireViewModel = TireViewModel(tokenRepository)
+    private lateinit var tokenRepository: TokenRepository
+    private lateinit var tireViewModel: TireViewModel
+    private lateinit var car_id: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        car_id = arguments?.getString("car_id")!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        tokenRepository = TokenRepository(requireContext())
+        tireViewModel = TireViewModel(tokenRepository, car_id)
         binding = FragmentTireBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,6 +51,7 @@ class TireFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
         observeTireState()
 
         binding.addTireButton.setOnClickListener {
@@ -56,6 +69,16 @@ class TireFragment(
                 }
             }
         }
+    }
+
+    private fun setupRecyclerView() {
+        tiresAdapter = TiresAdapter { tire ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                tireViewModel.deleteTire(tire.tire_id)
+            }
+        }
+        binding.carRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.carRecyclerView.adapter = tiresAdapter
     }
 
     private fun showAddTireDialog() {

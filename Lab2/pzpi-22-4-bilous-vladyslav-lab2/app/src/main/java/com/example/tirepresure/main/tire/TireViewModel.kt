@@ -17,20 +17,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class TireViewModel (
-    private var tokenRepository: TokenRepository
+    private var tokenRepository: TokenRepository,
+    private var vehicleId: String,
 ): ViewModel(){
     private val _tiresState = MutableStateFlow<List<Tire>>(emptyList())
     val tiresState: StateFlow<List<Tire>> = _tiresState.asStateFlow()
 
     init {
-        loadTires()
+        loadTires(vehicleId)
     }
 
-    fun loadTires() {
+    fun loadTires(vehicleId: String) {
         viewModelScope.launch {
             try {
-                val token = tokenRepository.getToken()
-                val response = RetrofitInstance.tireApi.getTires(token)
+//                val token = tokenRepository.getToken()
+                val response = RetrofitInstance.tireApi.getTires(vehicleId)
 
                 if (response.isSuccessful) {
                     _tiresState.value = response.body()!!.tires
@@ -82,10 +83,10 @@ class TireViewModel (
 
                 if (response.isSuccessful) {
                     val addTireResponse = response.body()
-                    val newVehicleId = addTireResponse?.tire_id
+                    val newTireId = addTireResponse?.tire_id
 
-                    if (newVehicleId != null) {
-                        val newTire = getTire(newVehicleId)
+                    if (newTireId != null) {
+                        val newTire = getTire(newTireId)
                         if (newTire != null) {
                             val updatedTires = _tiresState.value.toMutableList().apply { add(newTire) }
                             _tiresState.value = updatedTires

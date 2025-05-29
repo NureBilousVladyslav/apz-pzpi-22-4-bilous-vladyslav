@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CarViewModel (
     private var tokenRepository: TokenRepository
@@ -86,14 +89,12 @@ class CarViewModel (
                     val newVehicleId = addCarResponse?.vehicle_id
 
                     if (newVehicleId != null) {
-                        val newCar = getCar(newVehicleId)
-                        if (newCar != null) {
-                            val updatedCars = _carsState.value.toMutableList().apply { add(newCar) }
-                            _carsState.value = updatedCars
-                            Log.e("CarViewModel", "Car added successfully")
-                        } else {
-                            Log.e("CarViewModel", "Failed to retrieve new car details")
-                        }
+                        val date = Date()
+                        val newCar = Car(newVehicleId, brand, model, year, SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date))
+                        val updatedCars = _carsState.value.toMutableList().apply { add(newCar) }
+
+                        _carsState.value = updatedCars
+                        Log.e("CarViewModel", "Car added successfully")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

@@ -9,7 +9,16 @@
         android:id="@+id/navigation_car"
         android:name="com.example.tirepresure.main.car.CarFragment"
         android:label="@string/title_car_fragment"
-        tools:layout="@layout/fragment_car" />
+        tools:layout="@layout/fragment_car" >
+
+        <action
+            android:id="@+id/action_carFragment_to_tireFragment"
+            app:destination="@id/tireFragment">
+            <argument
+                android:name="carId"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -22,4 +31,8 @@
         android:name="com.example.tirepresure.main.settings.SettingsFragment"
         android:label="@string/title_settings_fragment"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/tireFragment"
+        android:name="com.example.tirepresure.main.tire.TireFragment"
+        android:label="TireFragment" />
 </navigation>

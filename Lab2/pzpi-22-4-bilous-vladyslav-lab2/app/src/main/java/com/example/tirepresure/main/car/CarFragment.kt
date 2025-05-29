@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tirepresure.data.repo.TokenRepository
 import com.example.tirepresure.databinding.FragmentCarBinding
 import kotlinx.coroutines.launch
@@ -19,12 +21,16 @@ import kotlinx.coroutines.launch
 class CarFragment : Fragment() {
     private lateinit var binding: FragmentCarBinding
     private lateinit var carsAdapter: CarsAdapter
-    private val tokenRepository: TokenRepository = TokenRepository(requireContext())
-    private val carViewModel: CarViewModel = CarViewModel(tokenRepository)
+    private lateinit var tokenRepository: TokenRepository
+    private lateinit var carViewModel: CarViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        tokenRepository = TokenRepository(requireContext())
+        carViewModel = CarViewModel(tokenRepository)
+
         binding = FragmentCarBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,9 +59,20 @@ class CarFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        carsAdapter = CarsAdapter { car ->
-            Toast.makeText(context, "Clicked car: ${car.make}", Toast.LENGTH_LONG).show()
-        }
+        carsAdapter = CarsAdapter(
+            onItemClick = { car ->
+                val bundle = Bundle().apply {
+                    putString("car_id", car.vehicle_id)
+                }
+                findNavController().navigate(R.id.action_carFragment_to_tireFragment, bundle)
+            },
+            onDeleteClick = { car ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    carViewModel.deleteCar(car.vehicle_id)
+                }
+            }
+        )
+        binding.carRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.carRecyclerView.adapter = carsAdapter
     }
 
