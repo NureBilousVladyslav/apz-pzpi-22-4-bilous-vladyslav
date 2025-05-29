@@ -48,7 +48,7 @@ class Vehicle(db.Model):
 
             # Create vehicle
             vehicle = cls(
-                user_id=uuid.UUID(user_id),
+                user_id=user_id,
                 make=data['make'].strip(),
                 model=data['model'].strip(),
                 year=year
@@ -91,7 +91,7 @@ class Vehicle(db.Model):
                 )
 
             # Check if the vehicle belongs to the user
-            if str(vehicle.user_id) != user_id:
+            if vehicle.user_id != user_id:
                 return jsonify({"error": "Forbidden: You do not own this vehicle"}), 403
 
             db.session.delete(vehicle)
@@ -118,7 +118,7 @@ class Vehicle(db.Model):
             tuple: (JSON response, HTTP status code)
         """
         try:
-            vehicles = cls.query.filter_by(user_id=uuid.UUID(user_id)).all()
+            vehicles = cls.query.filter_by(user_id=user_id).all()
 
             vehicles_data = [{
                 "vehicle_id": str(v.vehicle_id),
@@ -194,7 +194,7 @@ class Vehicle(db.Model):
                 )
 
             # Check if the vehicle belongs to the user
-            if str(vehicle.user_id) != user_id:
+            if vehicle.user_id != user_id:
                 return jsonify({"error": "Forbidden: You do not own this vehicle"}), 403
 
             # Update fields if they exist in data

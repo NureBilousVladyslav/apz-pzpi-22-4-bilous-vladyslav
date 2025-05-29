@@ -4,6 +4,6 @@ data class Car(
     val vehicle_id: String,
     val make: String,
     val model: String,
-    val year: String,
+    val year: Int,
     val created_at: String,
 )

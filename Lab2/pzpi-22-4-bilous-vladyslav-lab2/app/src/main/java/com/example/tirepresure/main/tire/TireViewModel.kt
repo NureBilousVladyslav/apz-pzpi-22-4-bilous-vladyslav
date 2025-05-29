@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tirepresure.data.api.RetrofitInstance
 import com.example.tirepresure.data.model.AddTireRequest
-import com.example.tirepresure.data.model.DeleteTireRequest
 import com.example.tirepresure.data.model.Tire
 import com.example.tirepresure.data.model.ErrorResponse
 import com.example.tirepresure.data.repo.TokenRepository
@@ -18,23 +17,23 @@ import kotlinx.coroutines.launch
 
 class TireViewModel (
     private var tokenRepository: TokenRepository,
-    private var vehicleId: String,
+    private var carId: String,
 ): ViewModel(){
     private val _tiresState = MutableStateFlow<List<Tire>>(emptyList())
     val tiresState: StateFlow<List<Tire>> = _tiresState.asStateFlow()
 
     init {
-        loadTires(vehicleId)
+        loadTires(carId)
     }
 
-    fun loadTires(vehicleId: String) {
+    fun loadTires(carId: String) {
         viewModelScope.launch {
             try {
-//                val token = tokenRepository.getToken()
-                val response = RetrofitInstance.tireApi.getTires(vehicleId)
+                val token = tokenRepository.getToken()
+                val response = RetrofitInstance.tireApi.getTiresFromCar(token, carId)
 
                 if (response.isSuccessful) {
-                    _tiresState.value = response.body()!!.tires
+                    _tiresState.value = response.body()?.tires ?: emptyList()
                     Log.e("TireViewModel", "Successfully")
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -111,11 +110,9 @@ class TireViewModel (
     }
 
     suspend fun deleteTire(tireId: String){
-        val request = DeleteTireRequest(tireId)
-
         try {
             val token = tokenRepository.getToken()
-            val response = RetrofitInstance.tireApi.deleteTire(token, request)
+            val response = RetrofitInstance.tireApi.deleteTire(token, tireId)
             if (response.isSuccessful) {
                 response.body()
             } else {

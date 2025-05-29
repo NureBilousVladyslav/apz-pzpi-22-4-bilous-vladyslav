@@ -4,7 +4,6 @@ import com.example.tirepresure.data.model.AddTireRequest
 import com.example.tirepresure.data.model.AddTireResponse
 import com.example.tirepresure.data.model.Tire
 import com.example.tirepresure.data.model.TiresGetResponse
-import com.example.tirepresure.data.model.DeleteTireRequest
 import com.example.tirepresure.data.model.MessageResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -13,24 +12,25 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TireApi {
-    @GET("get_vehicle_tires")
+    @GET("vehicle_tires/vehicle")
     @Headers(
         "Content-Type: application/json"
     )
-    suspend fun getTires(
-        @Header("Authorization") vehicleId: String?,
+    suspend fun getTiresFromCar(
+        @Header("Authorization") token: String?,
+        @Query("vehicle") vehicleId: String,
     ): Response<TiresGetResponse>
 
-    @GET("get_tire")
+    @GET("tire/tire")
     @Headers(
         "Content-Type: application/json"
     )
     suspend fun getTire(
-        @Header("Authorization") tireId: String?,
-        @Path("vehicle_id") vehicleId: String,
+        @Header("Authorization") token: String?,
+        @Query("tire") tireId: String,
     ): Response<Tire>
 
     @POST("add_tire")
@@ -42,12 +42,12 @@ interface TireApi {
         @Body request: AddTireRequest,
     ): Response<AddTireResponse>
 
-    @DELETE("delete_vehicle/vehicle")
+    @DELETE("delete_tire/tire")
     @Headers(
         "Content-Type: application/json"
     )
     suspend fun deleteTire(
         @Header("Authorization") token: String?,
-        @Body request: DeleteTireRequest
+        @Query("tire") tireId: String,
     ): Response<MessageResponse>
 }

@@ -58,7 +58,6 @@ class Tire(db.Model):
                 'label': str,
                 'optimal_pressure': float,
                 'pressure_unit': str ('bar', 'psi', 'kPa'),
-                'current_alert_type': str (optional)
             }
 
         Returns:
@@ -76,7 +75,7 @@ class Tire(db.Model):
                 )
 
             # Check if the vehicle belongs to the user
-            if str(vehicle.user_id) != user_id:
+            if vehicle.user_id != user_id:
                 return jsonify({"error": "Forbidden: You do not own this vehicle"}), 403
 
             optimal_pressure = Validator.validate_pressure(data['optimal_pressure'], unit=None, desired_unit=None)
@@ -87,7 +86,6 @@ class Tire(db.Model):
                 optimal_pressure=optimal_pressure,
                 pressure_unit='bar',  # Store internally in bar
                 sensor_code=cls.generate_sensor_code(),
-                current_alert_type=data.get('current_alert_type')
             )
 
             db.session.add(tire)
@@ -119,7 +117,7 @@ class Tire(db.Model):
                 return ErrorHandler.handle_error(None, message=f"Tire {tire_id} not found", status_code=404)
 
             # Check if the vehicle belongs to the user
-            if str(tire.vehicle.user_id) != user_id:
+            if tire.vehicle.user_id != user_id:
                 return jsonify({"error": "Forbidden: You do not own this tire"}), 403
 
             if 'label' in data:
@@ -166,8 +164,8 @@ class Tire(db.Model):
                 tire_data = {
                     "tire_id": str(tire.tire_id),
                     "label": tire.label,
-                    "pressure_unit": tire.pressure_unit,
                     "optimal_pressure": float(tire.optimal_pressure),
+                    "pressure_unit": tire.pressure_unit,
                     "sensor_code": tire.sensor_code,
                     "installed_at": tire.installed_at.isoformat(),
                     "current_alert_type": tire.current_alert_type,
@@ -210,8 +208,8 @@ class Tire(db.Model):
                 "tire_id": str(tire.tire_id),
                 "vehicle_id": str(tire.vehicle_id),
                 "label": tire.label,
-                "pressure_unit": tire.pressure_unit,
                 "optimal_pressure": float(tire.optimal_pressure),
+                "pressure_unit": tire.pressure_unit,
                 "sensor_code": tire.sensor_code,
                 "installed_at": tire.installed_at.isoformat(),
                 "current_alert_type": tire.current_alert_type,
@@ -247,7 +245,7 @@ class Tire(db.Model):
                 )
 
             # Check if the vehicle belongs to the user
-            if str(tire.vehicle.user_id) != user_id:
+            if tire.vehicle.user_id != user_id:
                 return jsonify({"error": "Forbidden: You do not own this tire"}), 403
 
             db.session.delete(tire)

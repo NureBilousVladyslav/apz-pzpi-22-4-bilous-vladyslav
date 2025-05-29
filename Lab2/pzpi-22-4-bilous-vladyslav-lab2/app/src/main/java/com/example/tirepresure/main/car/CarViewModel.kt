@@ -6,8 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.tirepresure.data.api.RetrofitInstance
 import com.example.tirepresure.data.model.AddCarRequest
 import com.example.tirepresure.data.model.Car
-import com.example.tirepresure.data.model.DeleteCarRequest
-import com.example.tirepresure.data.model.DeleteTireRequest
 import com.example.tirepresure.data.model.ErrorResponse
 import com.example.tirepresure.data.repo.TokenRepository
 import com.google.gson.Gson
@@ -34,10 +32,10 @@ class CarViewModel (
         viewModelScope.launch {
             try {
                 val token = tokenRepository.getToken()
-                val response = RetrofitInstance.carApi.getCars(token)
+                val response = RetrofitInstance.carApi.getCarsFromUser(token)
 
                 if (response.isSuccessful) {
-                    _carsState.value = response.body()!!.cars
+                    _carsState.value = response.body()?.cars ?: emptyList()
                     Log.e("CarViewModel", "Successfully")
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -77,7 +75,7 @@ class CarViewModel (
         }
     }
 
-    fun addCar(brand: String, model: String, year: String) {
+    fun addCar(brand: String, model: String, year: Int) {
         viewModelScope.launch {
             try {
                 val token = tokenRepository.getToken()
@@ -112,11 +110,9 @@ class CarViewModel (
     }
 
     suspend fun deleteCar(carId: String){
-        val request = DeleteCarRequest(carId)
-
         try {
             val token = tokenRepository.getToken()
-            val response = RetrofitInstance.carApi.deleteCar(token, request)
+            val response = RetrofitInstance.carApi.deleteCar(token, carId)
             if (response.isSuccessful) {
                 response.body()
             } else {

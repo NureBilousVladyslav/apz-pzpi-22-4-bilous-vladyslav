@@ -87,10 +87,4 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveButton"
-        android:layout_marginTop="40dp"
-        android:text="@string/save"
-        style="@style/CustomMaterialButton" />
-
 </LinearLayout>

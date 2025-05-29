@@ -100,9 +100,7 @@ class SignInFragment : Fragment() {
                         if (response.isSuccessful) {
                             val token = response.body()!!.token
                             tokenRepository.saveToken(token)
-                            Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show()
 
-                            requireActivity().supportFragmentManager.popBackStack()
                             startActivity(MainActivity::class.java)
                         } else {
                             val errorBody = response.errorBody()?.string()

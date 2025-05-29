@@ -49,9 +49,9 @@ class CarFragment : Fragment() {
     private fun observeCarState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                carViewModel.carsState.collect { car ->
-                    if (car.isNotEmpty()) {
-                        carsAdapter.submitList(car)
+                carViewModel.carsState.collect { cars ->
+                    if (cars.isNotEmpty()) {
+                        carsAdapter.submitList(cars)
                     }
                 }
             }
@@ -93,7 +93,7 @@ class CarFragment : Fragment() {
                     Toast.makeText(requireContext(), "Field is empty", Toast.LENGTH_LONG).show()
                     return@setPositiveButton
                 }
-                carViewModel.addCar(brand, model, year)
+                carViewModel.addCar(brand, model, year.toInt())
                 Toast.makeText(requireContext(), "Adding car...", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancel", null)
