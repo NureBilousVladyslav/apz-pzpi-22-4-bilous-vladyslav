@@ -133,7 +133,7 @@
             android:layout_marginTop="10dp"
             android:nestedScrollingEnabled="false"
             android:layout_gravity="bottom"
-            app:layout_constraintTop_toBottomOf="@+id/sensorTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/addTireButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

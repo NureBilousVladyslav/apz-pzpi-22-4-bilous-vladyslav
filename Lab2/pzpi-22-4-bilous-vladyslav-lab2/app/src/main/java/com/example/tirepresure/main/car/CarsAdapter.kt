@@ -14,29 +14,29 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class CarsAdapter(
     private val onItemClick: (Car) -> Unit,
-    private val onDeleteClick: (Car) -> Unit
+    private val onDeleteClick: (String) -> Unit
 ) : ListAdapter<Car, CarsAdapter.CarViewHolder>(CarDiffCallback()) {
 
     class CarViewHolder(
         private val binding: ItemCarBinding,
         private val onItemClick: (Car) -> Unit,
-        private val onDeleteClick: (Car) -> Unit
+        private val onDeleteClick: (String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(car: Car) {
             binding.brandTextView.text = car.make
             binding.modelTextView.text = car.model
             binding.propertiesImageView.setOnClickListener {
-                showPropertiesCarDialog(car)
+                showPropertiesCarDialog(car.vehicle_id, car.make)
             }
             binding.root.setOnClickListener { onItemClick(car) }
         }
 
-        private fun showPropertiesCarDialog(car: Car) {
+        private fun showPropertiesCarDialog(carId: String, brand: String) {
             val dialogView = LayoutInflater.from(binding.root.context).inflate(R.layout.dialog_car_properties, null)
             val titleTextView = dialogView.findViewById<TextView>(R.id.titleTextView)
             val deleteButton = dialogView.findViewById<MaterialButton>(R.id.deleteButton)
 
-            titleTextView.text = car.make
+            titleTextView.text = brand
 
             MaterialAlertDialogBuilder(binding.root.context, R.style.CustomDialogStyle)
                 .setView(dialogView)
@@ -45,7 +45,7 @@ class CarsAdapter(
                 .apply {
                     show()
                     deleteButton.setOnClickListener {
-                        onDeleteClick(car)
+                        onDeleteClick(carId)
                         dismiss()
                     }
                 }

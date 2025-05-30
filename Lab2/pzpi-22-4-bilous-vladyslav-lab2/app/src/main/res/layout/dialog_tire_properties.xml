@@ -5,8 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@drawable/rounded_all_background"
-    android:backgroundTint="@color/onPrimaryVariant"
     android:clipToPadding="false">
 
     <TextView

@@ -16,21 +16,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tirepresure.data.repo.TokenRepository
 import com.example.tirepresure.databinding.FragmentCarBinding
+import com.example.tirepresure.main.MainActivity
 import kotlinx.coroutines.launch
 
 class CarFragment : Fragment() {
     private lateinit var binding: FragmentCarBinding
     private lateinit var carsAdapter: CarsAdapter
-    private lateinit var tokenRepository: TokenRepository
-    private lateinit var carViewModel: CarViewModel
+    private val carViewModel: CarViewModel by lazy {
+        (requireActivity() as MainActivity).provideCarViewModel()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        tokenRepository = TokenRepository(requireContext())
-        carViewModel = CarViewModel(tokenRepository)
-
         binding = FragmentCarBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,9 +49,7 @@ class CarFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 carViewModel.carsState.collect { cars ->
-                    if (cars.isNotEmpty()) {
-                        carsAdapter.submitList(cars)
-                    }
+                    carsAdapter.submitList(cars)
                 }
             }
         }
@@ -63,12 +60,14 @@ class CarFragment : Fragment() {
             onItemClick = { car ->
                 val bundle = Bundle().apply {
                     putString("car_id", car.vehicle_id)
+                    putString("car_brand", car.make)
+                    putString("car_model", car.model)
                 }
                 findNavController().navigate(R.id.action_carFragment_to_tireFragment, bundle)
             },
-            onDeleteClick = { car ->
+            onDeleteClick = { carId ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    carViewModel.deleteCar(car.vehicle_id)
+                    carViewModel.deleteCar(carId)
                 }
             }
         )

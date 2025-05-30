@@ -35,8 +35,7 @@ class CarViewModel (
                 val response = RetrofitInstance.carApi.getCarsFromUser(token)
 
                 if (response.isSuccessful) {
-                    _carsState.value = response.body()?.cars ?: emptyList()
-                    Log.e("CarViewModel", "Successfully")
+                    _carsState.value = response.body()?.vehicles!!
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = try {
@@ -114,10 +113,12 @@ class CarViewModel (
             val token = tokenRepository.getToken()
             val response = RetrofitInstance.carApi.deleteCar(token, carId)
             if (response.isSuccessful) {
+                _carsState.value = _carsState.value.filter { it.vehicle_id != carId }
                 response.body()
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorMessage = try {
+                    Log.d("CarViewModel", "Car deleted successfully")
                     Gson().fromJson(errorBody, ErrorResponse::class.java).message
                 } catch (e: JsonSyntaxException) {
                     "Failed to get vehicle details"

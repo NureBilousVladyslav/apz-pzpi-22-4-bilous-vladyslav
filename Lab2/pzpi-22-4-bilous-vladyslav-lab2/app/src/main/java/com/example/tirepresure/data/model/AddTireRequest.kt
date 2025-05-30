@@ -5,5 +5,4 @@ data class AddTireRequest(
     val label: String,
     val optimal_pressure: Float,
     val pressure_unit: String,
-    val current_alert_type: String,
 )

@@ -33,8 +33,7 @@ class TireViewModel (
                 val response = RetrofitInstance.tireApi.getTiresFromCar(token, carId)
 
                 if (response.isSuccessful) {
-                    _tiresState.value = response.body()?.tires ?: emptyList()
-                    Log.e("TireViewModel", "Successfully")
+                    _tiresState.value = response.body()?.tires!!
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = try {
@@ -73,11 +72,11 @@ class TireViewModel (
         }
     }
 
-     fun addTire(carId: String, name: String, optimalPressure: Float, unit: String, alertType: String) {
+     fun addTire(carId: String, name: String, optimalPressure: Float, unit: String) {
         viewModelScope.launch {
             try {
                 val token = tokenRepository.getToken()
-                val request = AddTireRequest(carId, name, optimalPressure, unit, alertType)
+                val request = AddTireRequest(carId, name, optimalPressure, unit)
                 val response = RetrofitInstance.tireApi.addTire(token, request)
 
                 if (response.isSuccessful) {
@@ -89,9 +88,6 @@ class TireViewModel (
                         if (newTire != null) {
                             val updatedTires = _tiresState.value.toMutableList().apply { add(newTire) }
                             _tiresState.value = updatedTires
-                            Log.e("TireViewModel", "Tire added successfully")
-                        } else {
-                            Log.e("TireViewModel", "Failed to retrieve new tire details")
                         }
                     }
                 } else {
@@ -114,6 +110,7 @@ class TireViewModel (
             val token = tokenRepository.getToken()
             val response = RetrofitInstance.tireApi.deleteTire(token, tireId)
             if (response.isSuccessful) {
+                _tiresState.value = _tiresState.value.filter { it.tire_id != tireId }
                 response.body()
             } else {
                 val errorBody = response.errorBody()?.string()

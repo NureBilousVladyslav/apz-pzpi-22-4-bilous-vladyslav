@@ -34,5 +34,11 @@
     <fragment
         android:id="@+id/tireFragment"
         android:name="com.example.tirepresure.main.tire.TireFragment"
-        android:label="TireFragment" />
+        android:label="TireFragment" >
+        <action
+            android:id="@+id/action_tireFragment_to_navigation_car"
+            app:destination="@id/navigation_car"
+            app:popUpTo="@id/tireFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

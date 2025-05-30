@@ -79,12 +79,22 @@ class Tire(db.Model):
                 return jsonify({"error": "Forbidden: You do not own this vehicle"}), 403
 
             optimal_pressure = Validator.validate_pressure(data['optimal_pressure'], unit=None, desired_unit=None)
+            
+            pressure_unit = data['pressure_unit'].lower()  # Normalize to lowercase
+            if pressure_unit not in ['bar', 'psi', 'kpa']:
+                return ErrorHandler.handle_validation_error("Invalid pressure unit. Use 'bar', 'psi', or 'kPa'")
+            
+            optimal_pressure = Validator.validate_pressure(
+                data['optimal_pressure'],
+                unit=pressure_unit, 
+                desired_unit=pressure_unit
+            )
 
             tire = cls(
                 vehicle_id=uuid.UUID(data['vehicle_id']),
                 label=data['label'].strip(),
                 optimal_pressure=optimal_pressure,
-                pressure_unit='bar',  # Store internally in bar
+                pressure_unit=pressure_unit,  # Store internally in bar
                 sensor_code=cls.generate_sensor_code(),
             )
 

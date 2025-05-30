@@ -14,27 +14,27 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TiresAdapter(
-    private val onItemClick: (Tire) -> Unit
+    private val onDeleteClick: (Tire) -> Unit
 ) : ListAdapter<Tire, TiresAdapter.TireViewHolder>(TireDiffCallback()) {
 
     class TireViewHolder(
         private val binding: ItemTireBinding,
-        private val onItemClick: (Tire) -> Unit
+        private val onDeleteClick: (Tire) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tire: Tire) {
             binding.nameTextView.text = tire.label
             binding.statusTextView.text = tire.current_alert_type
 
-            val unit = tire.pressure_unit ?: "bar"
+            val unit = tire.pressure_unit
             binding.currentPressureTextView.text = "Current pressure: ${tire.current_pressure} $unit"
             binding.normalPressureTextView.text = "Optimal pressure: ${tire.optimal_pressure} $unit"
             setupPressureRange(tire)
             binding.propertiesImageView.setOnClickListener {
-                showAddCarDialog(tire)
+                showPropertiesTireDialog(tire)
             }
         }
 
-        private fun showAddCarDialog(tire: Tire) {
+        private fun showPropertiesTireDialog(tire: Tire) {
             val dialogView = LayoutInflater.from(binding.root.context).inflate(R.layout.dialog_tire_properties, null)
             val titleTextView = dialogView.findViewById<TextView>(R.id.titleTextView)
             val paringCodeTextView = dialogView.findViewById<TextView>(R.id.paringCodeTextView)
@@ -42,14 +42,18 @@ class TiresAdapter(
 
             titleTextView.setText(tire.label)
             paringCodeTextView.setText(tire.sensor_code)
-            deleteButton.setOnClickListener {
-                onItemClick(tire)
-            }
 
             MaterialAlertDialogBuilder(binding.root.context, R.style.CustomDialogStyle)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
-                .show()
+                .create()
+                .apply {
+                    show()
+                    deleteButton.setOnClickListener {
+                        onDeleteClick(tire)
+                        dismiss()
+                    }
+                }
         }
 
         private fun setupPressureRange(tire: Tire) {
@@ -110,7 +114,7 @@ class TiresAdapter(
             parent,
             false
         )
-        return TireViewHolder(binding, onItemClick)
+        return TireViewHolder(binding, onDeleteClick)
     }
 
     override fun onBindViewHolder(holder: TireViewHolder, position: Int) {
