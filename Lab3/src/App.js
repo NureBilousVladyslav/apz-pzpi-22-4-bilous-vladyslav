@@ -30,6 +30,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LoginForm changeLanguage={changeLanguage} />} />
         <Route path='/customers' element={<Customers />} />
+        <Route path='/admin/user/user?user=' element={<Customers />} />
         <Route path='/admins' element={<Admins />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
