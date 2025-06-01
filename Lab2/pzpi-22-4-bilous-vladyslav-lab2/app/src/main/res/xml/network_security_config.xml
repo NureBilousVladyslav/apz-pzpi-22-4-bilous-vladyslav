@@ -3,4 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">tire-presure-backend-dpg3ejcpgpbnfmeh.northeurope-01.azurewebsites.net</domain>
+    </domain-config>
 </network-security-config>

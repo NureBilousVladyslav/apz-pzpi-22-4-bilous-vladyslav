@@ -8,14 +8,13 @@
   padding: 0.5rem 1rem;
   transition: all 0.4s ease;
   width: stretch;
-  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .language-switcher .button.active {
-  background-color: #007bff;
+  background-color: #f1bb6e;
   color: white;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .language-switcher .button:focus {
-  background-color: #007bff;
+  background-color: #f1bb6e;
   color: white;
 }
 
@@ -35,7 +34,6 @@
 .language-switcher .flag {
   width: 2.4rem;
   height: 1.6rem;
-  border-radius: 0.3rem;
   object-fit: cover;
 }
 

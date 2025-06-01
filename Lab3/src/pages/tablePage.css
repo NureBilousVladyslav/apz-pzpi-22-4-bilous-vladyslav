@@ -4,7 +4,6 @@
   background: white;
   margin: 2rem;
   margin-left: 0;
-  border-radius: 1rem;
   padding: 2rem;
   overflow-y: auto;
   height: calc(100vh - 4rem);
@@ -16,14 +15,12 @@
   display: flex;
   background: #f1f1f1;
   padding: 1rem;
-  border-radius: 1rem;
   flex-grow: 1;
 }
 
 .page .actions button {
   margin-left: 1rem;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
   background: white;
   color: #333;
   display: flex;
@@ -52,7 +49,6 @@
   background: #e3e3e3;
   justify-self: center;
   padding: 0.5rem 2rem;
-  border-radius: 0.5rem;
   font-size: 0.9rem;
   color: #333;
 }
@@ -88,7 +84,6 @@
     margin-top: auto;
     background: #EBE9E9;
     padding: 1rem;
-    border-radius: 1rem;
     display: flex;
     justify-content: center;
   }

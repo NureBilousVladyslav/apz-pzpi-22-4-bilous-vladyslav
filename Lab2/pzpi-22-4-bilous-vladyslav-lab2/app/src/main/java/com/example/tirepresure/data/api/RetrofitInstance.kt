@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "http://10.0.2.2:5000/"
+    private const val BASE_URL = "https://tire-presure-backend-dpg3ejcpgpbnfmeh.northeurope-01.azurewebsites.net/"
 
     val authApi: AuthApi by lazy {
         retrofit.create(AuthApi::class.java)
@@ -18,6 +18,10 @@ object RetrofitInstance {
 
     val tireApi: TireApi by lazy {
         retrofit.create(TireApi::class.java)
+    }
+
+    val userApi: UserApi by lazy {
+        retrofit.create(UserApi::class.java)
     }
 
     val okHttpClient: OkHttpClient by lazy {

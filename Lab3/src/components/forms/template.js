@@ -61,7 +61,7 @@ const FormTemplate = ({
               id={name}
               type={name === "password" && showPassword ? "text" : type}
               {...register(name, validation)}
-              autoComplete={name === "password" ? "new-password" : "off"}
+              autoComplete="new-password"
               placeholder={!showLabel ? placeholder : undefined}
             />
             {errors[name] && <p className="error">{errors[name].message}</p>}
