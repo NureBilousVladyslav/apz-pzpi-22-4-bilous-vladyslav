@@ -19,23 +19,6 @@ const Customers = () => {
     { field: "birthday", headerName: t("customers.birthday") },
     { field: "createdAt", headerName: t("customers.createdAt") },
     {
-      field: "goToUser",
-      headerName: "",
-      cellRenderer: (params) => (
-        <button
-          className="row-btn go-to-user"
-          onClick={() => {
-            navigate(`/admin/user/user?user=${params.data.user_id}`);
-          }}
-        >
-          {t("customers.goToUser")}
-        </button>
-      ),
-      width: 150,
-      filter: false,
-      cellStyle: { textAlign: "center" },
-    },
-    {
       field: "delete",
       headerName: "",
       cellRenderer: (params) => (
